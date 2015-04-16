@@ -3,11 +3,13 @@
 Functions to generate a square grid of points and to fit a set of experimental
 coordinates to a grid (pitch, offset, rotation).
 """
+from __future__ import division
 
 import numpy as np
 from scipy.optimize import leastsq, minimize
 
-def get_grid_coords(shape, pitch, x0, y0, rotation=0):
+
+def get_grid_coords(shape, pitch=1, x0=None, y0=None, rotation=0):
     """Return coordinates of a grid points with given geometrical properties.
 
     Parameters
@@ -26,6 +28,10 @@ def get_grid_coords(shape, pitch, x0, y0, rotation=0):
     `X`, `Y` : arrays of shape `shape`
         coordinates grid points (as returned by `meshgrid`)
     """
+    if x0 is None:
+        x0 = (shape[1] - 1)/2
+    if y0 is None:
+        y0 = (shape[0] - 1)/2
     x_spots, y_spots = np.meshgrid(
              (np.arange(shape[1]) - (shape[1]-1)/2.)*pitch,
              (np.arange(shape[0]) - (shape[0]-1)/2.)*pitch)
