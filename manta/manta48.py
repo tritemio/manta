@@ -83,14 +83,8 @@ class Manta48(object):
     shortdim = 4
     size = longdim*shortdim
 
-    # Index of first two "lines" of SPADs
-    ilines1 = np.arange(size/2).reshape(longdim, shortdim/2)[::-1]
-    # Index of last two "lines" of SPADs
-    ilines2 = size/2 + np.arange(longdim*shortdim/2).reshape(
-        longdim, shortdim/2)
-
     def __init__(self, index=False, lcos_coord=True, horiz=False,
-                 mirrorx=False):
+                 mirrorx=False, version=1):
         """Object representing 48-pixel manta SPAD numbering.
 
         Arguments:
@@ -109,10 +103,25 @@ class Manta48(object):
 
         if horiz:
             self.nrows, self.ncols = self.shortdim, self.longdim
-            self.ispad = np.vstack([self.ilines1.T, self.ilines2.T])
         else:
             self.nrows, self.ncols = self.longdim, self.shortdim
-            self.ispad = np.hstack([self.ilines1, self.ilines2])
+
+        if version == 1:
+            # Index of first two "lines" of SPADs
+            ilines1 = np.arange(self.size/2).reshape(self.longdim,
+                                                     self.shortdim/2)[::-1]
+            # Index of last two "lines" of SPADs
+            ilines2 = self.size/2 + \
+                      np.arange(self.size/2).reshape(self.longdim,
+                                                     self.shortdim/2)
+
+            self.ispad = np.hstack([ilines1, ilines2])
+        else:
+            self.ispad = np.arange(self.size).reshape(self.shortdim,
+                                                      self.longdim).T
+
+        if horiz:
+            self.ispad = self.ispad.T
 
         if mirrorx:
             self.ispad = self.ispad[:, ::-1]
