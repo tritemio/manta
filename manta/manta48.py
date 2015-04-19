@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 This module provides an object with 48-pixel-manta SPAD number definition,
-related utitlities and rich HTML representations in IPython Notebook.
+related utilities and rich HTML representations in IPython Notebook.
 """
 
 from __future__ import division
@@ -162,7 +162,7 @@ class Manta48(object):
                                         slice(start_col, stop_col)))
 
     def dualgroup(self, group):
-        """Get corresponing pixels on the "other" side of the detetctor.
+        """Get corresponding pixels on the "other" side of the detector.
 
         `group` is either a boolean mask or a 2-element tuple of slice objects.
 
@@ -231,7 +231,7 @@ class Manta48(object):
         return np.linalg.norm(vector_diff)
 
     def show_selection(self, s_block):
-        """Show a colored table hightlighting the selection"""
+        """Show a coloured table highlighting the selection"""
         grid = BlockGrid(self.ncols, self.nrows, fill=colors['LightGray'],
                          block_size=15)
         if hasattr(s_block, '__array__'):
